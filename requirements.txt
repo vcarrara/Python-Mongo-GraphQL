@@ -1,0 +1,2 @@
+graphene
+flask_graphql

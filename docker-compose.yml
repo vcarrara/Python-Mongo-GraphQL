@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  python:
+    container_name: python-graphql-mongo
+    build: .
+    ports:
+      - "80:80"
+    environment:
+      PORT: 80
+      API_ENDPOINT: "/"
+      DB_ENDPOINT: "python-mongo-graphql.37e9n.mongodb.net/social?retryWrites=true&w=majority"
+      DB_USER: "user"
+      DB_PASSWORD: "user"
+      COMPANIES_PER_PAGE: 2
+      POSTS_PER_PAGE: 2
+      INTERACTIONS_PER_PAGE: 2

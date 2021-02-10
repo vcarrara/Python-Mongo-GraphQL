@@ -8,7 +8,7 @@ from bson import ObjectId
 import os
 
 
-use_dataloader = os.getenv('USE_DATALOADER', False)
+use_dataloader = os.getenv('USE_DATALOADER', True)
 user_loader = UserLoader()
 interaction_loader = InteractionLoader()
 

@@ -5,8 +5,10 @@ from functools import reduce
 from loaders import UserLoader, InteractionLoader
 from random import randrange
 from bson import ObjectId
+import os
 
 
+use_dataloader = os.getenv('USE_DATALOADER', False)
 user_loader = UserLoader()
 interaction_loader = InteractionLoader()
 
@@ -97,7 +99,7 @@ class Post(ObjectType):
         # Get post_id from field
         post_id = root['_id']
         # Query to DB
-        return interaction_loader.load(post_id)
+        return interaction_loader.load(post_id) if use_dataloader else retrieve_interactions_from_post(post_id, projection, page)
 
     def resolve_user(root, info):
         # Requested fields within a list
@@ -114,7 +116,7 @@ class Post(ObjectType):
         # Query to DB
         user_id = root['userId']
         # return retrieve_user(user_id, projection)
-        return user_loader.load(user_id)
+        return user_loader.load(user_id) if use_dataloader else retrieve_user(user_id, projection)
 
 
 class CreatePost(Mutation):

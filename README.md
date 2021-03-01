@@ -29,11 +29,12 @@ $ docker-compose down
 | Variable              | Description                                                                   | Valeur par défault                                                           |
 | --------              | -----------------------------------                                           | ------------------                                                           |
 | PORT                  | API port                                                                      | 80                                                                           |
-| LOKI_IP               | IP of Loki                                                                    | null                                                                         |
+| LOKI_IP               | IP of Loki                                                                    | 172.22.0.2                                                                   |
 | LOGS_PATH             | Path of gunicorn HTTP logs                                                    | logs/gunicorn.log                                                            |
 | API_ENDPOINT          | GraphQL API endpoint                                                          | /graphql                                                                     |
 | DB_ENDPOINT           | MongoDB endpoint                                                              | python-mongo-graphql.37e9n.mongodb.net/social?retryWrites=true&w=majority    |
 | DB_PROTOCOL           | Protocol that should be used to connect MongoDB                               | mongodb+srv                                                                  |
 | DB_USER               | MongoDB username                                                              | user                                                                         |
 | DB_PASSWORD           | MongoDB password                                                              | user                                                                         |
-| USE_DATALOADER        | Wheter the API should use a dataloader to retrieve information (perf. gain)   | true                                                                         |
+| GRAFANA_USER          | Grafana username                                                              | admin                                                                        |
+| GRAFANA_PASSWORD      | Grafana password                                                              | admin                                                                        |

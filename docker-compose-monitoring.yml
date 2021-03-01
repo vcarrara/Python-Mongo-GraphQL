@@ -16,8 +16,8 @@ services:
     ports:
       - 3000:3000
     environment:
-      ADMIN_USER: admin
-      ADMIN_PASSWORD: admin
+      ADMIN_USER: ${GRAFANA_USER}
+      ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
     volumes:
       - ./grafana-data/grafana:/var/lib/grafana
     depends_on:

@@ -2,17 +2,25 @@ version: "3"
 
 services:
   python:
-    # container_name: python-graphql-mongo
-    image: test
-    # build: .
+    build: .
+    container_name: pmg-python
     ports:
-      - "80:80"
+      - 80:80
+    volumes:
+      - ./logs/gunicorn.log:/usr/src/app/logs/gunicorn.log
     environment:
       PORT: 80
-      API_ENDPOINT: "/"
-      DB_ENDPOINT: "python-mongo-graphql.37e9n.mongodb.net/social?retryWrites=true&w=majority"
-      DB_USER: "user"
-      DB_PASSWORD: "user"
-      COMPANIES_PER_PAGE: 2
-      POSTS_PER_PAGE: 2
-      INTERACTIONS_PER_PAGE: 2
+      LOGS_PATH: /usr/src/app/logs/gunicorn.log
+      API_ENDPOINT: "/graphql"
+
+  promtail:
+    image: grafana/promtail
+    container_name: pmg-promtail
+    ports:
+      - 9080:9080
+    volumes:
+      - ./logs:/var/log
+      - ./monitoring/promtail.yaml:/etc/promtail/local-config.yaml
+    environment:
+      LOKI_IP: 172.22.0.2
+    command: -config.expand-env=true -config.file=/etc/promtail/local-config.yaml

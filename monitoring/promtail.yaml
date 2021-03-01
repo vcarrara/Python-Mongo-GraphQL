@@ -1,0 +1,27 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://${LOKI_IP}:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: system
+    pipeline_stages:
+      - regex:
+          expression: ^(?P<ip>\S+) (?:\S+) (?:\S+) \[(?P<timestamp>.*)\] "(?P<verb>\S+) (?P<uri>\S+) (?P<protocol>\S+)" (?P<status>\S+) (?P<result>\S+) (?:\S+) (?P<user_agent>\S+)
+      - labels:
+          verb:
+          status:
+      - timestamp:
+          format: 02/Jan/2006:15:04:05 -0700
+          source: timestamp
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: gunicorn
+          __path__: /var/log/gunicorn.log

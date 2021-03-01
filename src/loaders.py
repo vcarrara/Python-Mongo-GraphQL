@@ -6,7 +6,6 @@ from mongo_helper import retrieve_user, retrieve_users, retrieve_interactions_fr
 class UserLoader(DataLoader):
     def batch_load_fn(self, keys):
         return Promise.resolve(retrieve_users(keys))
-        # return Promise.resolve([retrieve_user(key, None) for key in keys])
 
 
 class InteractionLoader(DataLoader):

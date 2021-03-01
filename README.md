@@ -8,16 +8,17 @@ GraphQL API built with Python. The API queries a distant MongoDB database. The p
 
 ## Local development
 
-Start the service
+:rocket: Start the service
 
 ```
-$ docker-compose build
-$ docker-compose up [-d]
+$ docker-compose -f docker-compose-monitoring.yml up [-d]
+$ docker-compose up --build [-d]
 ```
 
 Stop the service
 
 ```
+$ docker-compose -f docker-compose-monitoring.yml down
 $ docker-compose down
 ```
 
@@ -27,12 +28,12 @@ $ docker-compose down
 
 | Variable              | Description                                                                   | Valeur par défault                                                           |
 | --------              | -----------------------------------                                           | ------------------                                                           |
-| PORT                  | GraphQL API port                                                              | 80                                                                           |
-| API_ENDPOINT          | GraphQL API endpoint                                                          | /                                                                            |
+| PORT                  | API port                                                                      | 80                                                                           |
+| LOKI_IP               | IP of Loki                                                                    | null                                                                         |
+| LOGS_PATH             | Path of gunicorn HTTP logs                                                    | logs/gunicorn.log                                                            |
+| API_ENDPOINT          | GraphQL API endpoint                                                          | /graphql                                                                     |
 | DB_ENDPOINT           | MongoDB endpoint                                                              | python-mongo-graphql.37e9n.mongodb.net/social?retryWrites=true&w=majority    |
+| DB_PROTOCOL           | Protocol that should be used to connect MongoDB                               | mongodb+srv                                                                  |
 | DB_USER               | MongoDB username                                                              | user                                                                         |
 | DB_PASSWORD           | MongoDB password                                                              | user                                                                         |
 | USE_DATALOADER        | Wheter the API should use a dataloader to retrieve information (perf. gain)   | true                                                                         |
-| COMPANIES_PER_PAGE    | Number of companies returned when a *page* param is provided                  | 2                                                                            |
-| POSTS_PER_PAGE        | Number of posts per company returned when a *page* param is provided          | 2                                                                            |
-| INTERACTIONS_PER_PAGE | Number of interactions per post returned when a *page* param is provided      | 2                                                                            |

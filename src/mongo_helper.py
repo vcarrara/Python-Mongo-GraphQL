@@ -4,17 +4,13 @@ import os
 import pymongo
 
 client = pymongo.MongoClient(
-    f"mongodb+srv://{os.getenv('DB_USER', 'user')}:{os.getenv('DB_PASSWORD', 'user')}@{os.getenv('DB_ENDPOINT', 'python-mongo-graphql.37e9n.mongodb.net/social?retryWrites=true&w=majority')}")
+    f"{os.getenv('DB_PROTOCOL', 'mongodb+srv')}://{os.getenv('DB_USER', 'user')}:{os.getenv('DB_PASSWORD', 'user')}@{os.getenv('DB_ENDPOINT', 'python-mongo-graphql.37e9n.mongodb.net/social?retryWrites=true&w=majority')}")
 
 db = client['social']
 companies_collection = db['companies']
 posts_collection = db['posts']
 interactions_collection = db['interactions']
 users_collection = db['users']
-
-COMPANIES_PER_PAGE = int(os.getenv('COMPANIES_PER_PAGE', 2))
-POSTS_PER_PAGE = int(os.getenv('POSTS_PER_PAGE', 2))
-INTERACTIONS_PER_PAGE = int(os.getenv('INTERACTIONS_PER_PAGE', 2))
 
 
 def retrieve_collections():
@@ -30,13 +26,6 @@ def retrieve_companies(_id, projection, page):
     aggregation.append({
         '$project': projection
     })
-    if page:
-        aggregation.append({
-            '$skip': (page - 1) * COMPANIES_PER_PAGE
-        })
-        aggregation.append({
-            '$limit': COMPANIES_PER_PAGE
-        })
     return list(companies_collection.aggregate(aggregation))
 
 
@@ -53,13 +42,6 @@ def retrieve_posts(company_id, source, projection, page):
     aggregation.append({
         '$project': projection
     })
-    if page:
-        aggregation.append({
-            '$skip': (page - 1) * POSTS_PER_PAGE
-        })
-        aggregation.append({
-            '$limit': POSTS_PER_PAGE
-        })
     return list(posts_collection.aggregate(aggregation))
 
 
@@ -115,13 +97,6 @@ def retrieve_interactions_from_post(post_id, projection, page):
             '$project': projection
         }
     ]
-    if page:
-        aggregation.append({
-            '$skip': (page - 1) * INTERACTIONS_PER_PAGE
-        })
-        aggregation.append({
-            '$limit': INTERACTIONS_PER_PAGE
-        })
     return list(interactions_collection.aggregate(aggregation))
 
 

@@ -7,11 +7,11 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./logs/gunicorn.log:/usr/src/app/logs/gunicorn.log
+      - ./logs/gunicorn.log:${LOGS_PATH}
     environment:
-      PORT: 80
-      LOGS_PATH: /usr/src/app/logs/gunicorn.log
-      API_ENDPOINT: "/graphql"
+      PORT: ${PORT}
+      LOGS_PATH: ${LOGS_PATH}
+      API_ENDPOINT: ${API_ENDPOINT}
 
   promtail:
     image: grafana/promtail
@@ -22,5 +22,5 @@ services:
       - ./logs:/var/log
       - ./monitoring/promtail.yaml:/etc/promtail/local-config.yaml
     environment:
-      LOKI_IP: 172.22.0.2
+      LOKI_IP: ${LOKI_IP}
     command: -config.expand-env=true -config.file=/etc/promtail/local-config.yaml

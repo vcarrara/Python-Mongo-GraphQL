@@ -37,6 +37,7 @@ def get_fields(info):
     for name, value in info.fragments.items():
         fragments[name] = ast_to_dict(value)
 
+
     return collect_fields(node, fragments)
 
 
